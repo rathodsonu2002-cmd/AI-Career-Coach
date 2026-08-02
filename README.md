@@ -1,28 +1,16 @@
-# AI Career Coach
+# React + Vite
 
-AI Career Coach is a web application that helps students prepare for placements. The main goal of this project is to provide guidance for resume improvement, interview preparation, skill analysis, and career planning using AI.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Why I am building this project
+Currently, two official plugins are available:
 
-During my MCA, I noticed that many students have technical skills but do not know how to build a good resume, prepare for interviews, or identify the skills they need for a particular job role. This project is my attempt to solve these problems in one platform.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## Planned Features
+## React Compiler
 
-- Resume analysis
-- AI-based interview practice
-- Skill gap analysis
-- Learning roadmap
-- Project recommendations
-- Career guidance
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Tech Stack
+## Expanding the ESLint configuration
 
-- React
-- Node.js
-- Express.js
-- MongoDB
-- Gemini API
-
-## Current Status
-
-The project is currently in the planning and development phase.
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

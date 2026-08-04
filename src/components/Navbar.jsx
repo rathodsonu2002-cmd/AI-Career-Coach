@@ -1,14 +1,27 @@
 import "./Navbar.css";
+import { NavLink } from "react-router-dom";
+
 function Navbar() {
   return (
     <nav>
       <h2>AI Career Coach</h2>
 
       <ul>
-        <li>Home</li>
-        <li>Resume</li>
-        <li>Interview</li>
-        <li>Dashboard</li>
+        <li>
+          <NavLink to="/">Home</NavLink>
+        </li>
+
+        <li>
+          <NavLink to="/resume">Resume</NavLink>
+        </li>
+
+        <li>
+          <NavLink to="/interview">Interview</NavLink>
+        </li>
+
+        <li>
+          <NavLink to="/dashboard">Dashboard</NavLink>
+        </li>
       </ul>
     </nav>
   );

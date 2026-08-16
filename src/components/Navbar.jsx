@@ -22,6 +22,10 @@ function Navbar() {
         <li>
           <NavLink to="/dashboard">Dashboard</NavLink>
         </li>
+
+        <li>
+          <NavLink to="/assessment">Assessment</NavLink>
+        </li>
       </ul>
     </nav>
   );

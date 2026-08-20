@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./UserInput.css";
 import Button from "./Button";
+import AssessmentResult from "./AssessmentResult";
+
 function UserInput() {
+    const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -29,8 +33,11 @@ const [submitted, setSubmitted] = useState(false);
   }
 
   console.log("Career Assessment Data:", formData);
-
+localStorage.setItem("assessmentData", JSON.stringify(formData));
   setSubmitted(true);
+  navigate("/assessment-result", {
+  state: { formData },
+});
 };
 const handleReset = () => {
   setFormData({
@@ -179,17 +186,7 @@ const handleReset = () => {
   
 )}
 {submitted && (
-  <div>
-    <h3>Your Assessment</h3>
-
-    <p>Name: {formData.name}</p>
-    <p>Email: {formData.email}</p>
-    <p>Career Goal: {formData.goal}</p>
-    <p>Skills: {formData.skills}</p>
-    <p>Education: {formData.education}</p>
-    <p>Experience Level: {formData.experience}</p>
-    <p>Career Interest: {formData.interest}</p>
-  </div>
+  <AssessmentResult formData={formData} />
 )}
 <Button
   text="Reset Assessment"

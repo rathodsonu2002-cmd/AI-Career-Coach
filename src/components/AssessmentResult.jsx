@@ -1,4 +1,15 @@
+import { useEffect } from "react";
 function AssessmentResult({ formData }) {
+  useEffect(() => {
+  fetch("http://127.0.0.1:8000/api/test")
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Backend response:", data);
+    })
+    .catch((error) => {
+      console.error("Backend connection error:", error);
+    });
+}, []);
  const careerRecommendations = {
   "web-development": "Frontend Developer",
   "data-science": "Data Scientist",

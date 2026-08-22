@@ -16,7 +16,7 @@ function UserInput() {
     interest: "",
   });
 const [submitted, setSubmitted] = useState(false);
- const handleSubmit = (e) => {
+ const handleSubmit = async (e) => {
   e.preventDefault();
 
   if (
@@ -32,12 +32,37 @@ const [submitted, setSubmitted] = useState(false);
     return;
   }
 
-  console.log("Career Assessment Data:", formData);
-localStorage.setItem("assessmentData", JSON.stringify(formData));
-  setSubmitted(true);
-  navigate("/assessment-result", {
-  state: { formData },
-});
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/assessment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const result = await response.json();
+
+    console.log("Backend Response:", result);
+
+    localStorage.setItem("assessmentData", JSON.stringify(formData));
+    localStorage.setItem(
+      "recommendedCareer",
+      result.recommendedCareer
+    );
+
+    setSubmitted(true);
+
+    navigate("/assessment-result", {
+      state: {
+        formData,
+        recommendedCareer: result.recommendedCareer,
+      },
+    });
+  } catch (error) {
+    console.error("Error submitting assessment:", error);
+    alert("Unable to connect to backend.");
+  }
 };
 const handleReset = () => {
   setFormData({

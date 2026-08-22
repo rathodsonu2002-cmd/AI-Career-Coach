@@ -1,102 +1,68 @@
-import { useEffect } from "react";
-function AssessmentResult({ formData }) {
-  useEffect(() => {
-  fetch("http://127.0.0.1:8000/api/test")
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Backend response:", data);
-    })
-    .catch((error) => {
-      console.error("Backend connection error:", error);
-    });
-}, []);
- const careerRecommendations = {
-  "web-development": "Frontend Developer",
-  "data-science": "Data Scientist",
-  "ai-ml": "Machine Learning Engineer",
-  "cyber-security": "Cyber Security Analyst",
-  cloud: "Cloud Engineer",
-};
+import { useLocation } from "react-router-dom";
 
-const recommendedCareer =
-  careerRecommendations[formData.interest] || "Career not found";
- const userSkills = formData.skills
-  .toLowerCase()
-  .split(/[,\s]+/)
-  .map((skill) => skill.trim())
-  .filter((skill) => skill !== "");
+function AssessmentResult({ formData }) {
+  const location = useLocation();
+
+  const recommendedCareer =
+    location.state?.recommendedCareer || "Career not found";
+
+  const userSkills = formData.skills
+    .toLowerCase()
+    .split(/[,\s]+/)
+    .map((skill) => skill.trim())
+    .filter((skill) => skill !== "");
 
   const careerSkills = {
-  "web-development": [
-    "html",
-    "css",
-    "javascript",
-    "react",
-  ],
+    "web-development": ["html", "css", "javascript", "react"],
+    "data-science": ["python", "pandas", "numpy", "statistics"],
+    "ai-ml": ["python", "machine learning", "deep learning"],
+    "cyber-security": [
+      "networking",
+      "linux",
+      "security",
+      "ethical hacking",
+    ],
+    cloud: ["linux", "networking", "aws", "azure"],
+  };
 
-  "data-science": [
-    "python",
-    "pandas",
-    "numpy",
-    "statistics",
-  ],
+  const requiredSkills = careerSkills[formData.interest] || [];
 
-  "ai-ml": [
-    "python",
-    "machine learning",
-    "deep learning",
-  ],
+  const matchingSkills = userSkills.filter((skill) =>
+    requiredSkills.includes(skill)
+  );
 
-  "cyber-security": [
-    "networking",
-    "linux",
-    "security",
-    "ethical hacking",
-  ],
+  const missingSkills = requiredSkills.filter(
+    (skill) => !userSkills.includes(skill)
+  );
 
-  cloud: [
-    "linux",
-    "networking",
-    "aws",
-    "azure",
-  ],
-};
+  const skillMatchScore =
+    requiredSkills.length > 0
+      ? Math.round(
+          (matchingSkills.length / requiredSkills.length) * 100
+        )
+      : 0;
 
-const requiredSkills = careerSkills[formData.interest] || [];
+  let matchLevel = "";
 
-const matchingSkills = userSkills.filter((skill) =>
-  requiredSkills.includes(skill)
-);
-const missingSkills = requiredSkills.filter(
-  (skill) => !userSkills.includes(skill)
-);
+  if (skillMatchScore >= 80) {
+    matchLevel = "Strong Match";
+  } else if (skillMatchScore >= 50) {
+    matchLevel = "Good Match";
+  } else {
+    matchLevel = "Needs Improvement";
+  }
 
-const skillMatchScore =
-  requiredSkills.length > 0
-    ? Math.round(
-        (matchingSkills.length / requiredSkills.length) * 100
-      )
-    : 0;
+  let recommendationMessage = "";
 
-    let matchLevel = "";
-
-if (skillMatchScore >= 80) {
-  matchLevel = "Strong Match";
-} else if (skillMatchScore >= 50) {
-  matchLevel = "Good Match";
-} else {
-  matchLevel = "Needs Improvement";
-}
-let recommendationMessage = "";
-
-if (skillMatchScore >= 80) {
-  recommendationMessage = "You are well prepared for this career.";
-} else if (skillMatchScore >= 50) {
-  recommendationMessage = "You have a good foundation, but some skills need improvement.";
-} else {
-  recommendationMessage = "You should build the required skills before pursuing this career.";
-}
-    
+  if (skillMatchScore >= 80) {
+    recommendationMessage = "You are well prepared for this career.";
+  } else if (skillMatchScore >= 50) {
+    recommendationMessage =
+      "You have a good foundation, but some skills need improvement.";
+  } else {
+    recommendationMessage =
+      "You should build the required skills before pursuing this career.";
+  }
 
   let careerReason = "";
 
@@ -178,46 +144,42 @@ if (skillMatchScore >= 80) {
       </div>
 
       <div>
-  <h3>Recommended Career</h3>
+        <h3>Recommended Career</h3>
 
-  <p>{recommendedCareer}</p>
+        <p>{recommendedCareer}</p>
 
-  <p>
-    Skill Match Score: {skillMatchScore}%
-  </p>
+        <p>Skill Match Score: {skillMatchScore}%</p>
 
-  <p>
-    Match Level: {matchLevel}
-  </p>
+        <p>Match Level: {matchLevel}</p>
 
-  <div className="recommendation">
-    <h3>Recommendation</h3>
-    <p>{recommendationMessage}</p>
-  </div>
-</div>
+        <div className="recommendation">
+          <h3>Recommendation</h3>
+          <p>{recommendationMessage}</p>
+        </div>
+      </div>
+
       <div>
-  <h4>Matching Skills</h4>
+        <h4>Matching Skills</h4>
 
-  <p>
-    {matchingSkills.length > 0
-      ? matchingSkills.join(", ")
-      : "No matching skills yet"}
-  </p>
-</div>
+        <p>
+          {matchingSkills.length > 0
+            ? matchingSkills.join(", ")
+            : "No matching skills yet"}
+        </p>
+      </div>
 
-<div>
-  <h4>Skills to Learn</h4>
+      <div>
+        <h4>Skills to Learn</h4>
 
-  <p>
-    {missingSkills.length > 0
-      ? missingSkills.join(", ")
-      : "You have all required skills"}
-  </p>
-</div>
+        <p>
+          {missingSkills.length > 0
+            ? missingSkills.join(", ")
+            : "You have all required skills"}
+        </p>
+      </div>
 
       <div>
         <h3>Why this career?</h3>
-
         <p>{careerReason}</p>
       </div>
 

@@ -155,6 +155,8 @@ function AssessmentResult({ formData }) {
         <div className="recommendation">
           <h3>Recommendation</h3>
           <p>{recommendationMessage}</p>
+          <h3>AI Career Recommendation</h3>
+<p>{location.state?.aiRecommendation}</p>
         </div>
       </div>
 

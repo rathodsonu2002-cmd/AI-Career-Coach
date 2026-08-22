@@ -53,12 +53,13 @@ const [submitted, setSubmitted] = useState(false);
 
     setSubmitted(true);
 
-    navigate("/assessment-result", {
-      state: {
-        formData,
-        recommendedCareer: result.recommendedCareer,
-      },
-    });
+ navigate("/assessment-result", {
+  state: {
+    formData,
+    recommendedCareer: result.recommendedCareer,
+    aiRecommendation: result.aiRecommendation,
+  },
+});
   } catch (error) {
     console.error("Error submitting assessment:", error);
     alert("Unable to connect to backend.");
